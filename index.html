@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eSimeRkkI</title>
+    <link href="./assets/styles/tailwind.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="./assets/images/image2.png">
+    <style>
+
+
+
+.card-stacks-container {
+    position: relative;
+    padding: 20px; /* Adjust based on layout needs */
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px); /* For Safari compatibility */
+    background-color: rgba(255, 255, 255, 0.4); /* Semi-transparent background */
+    border-radius: 25px;
+    margin: auto;
+    width: 80%; /* Use width instead of max-width for a more consistent scaling */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.5s ease; /* Smooth transition for all properties */
+    display: flex; /* Enable flex layout for child elements */
+    flex-wrap: wrap; /* Allow child elements to wrap */
+    justify-content: space-around; /* Space around items for even distribution */
+    gap: 20px; /* Space between flex items */
+    align-items: flex-start; /* Align items at the start of the container */
+}
+
+.card-stack {
+    width: 300px; /* Default width for larger screens */
+    height: 500px; /* Default height for larger screens */
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 90px; /* Ensures space around each card stack */
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px); /* For Safari */
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+
+@media (max-width: 768px) {
+    .relative.w-full.h-screen {
+        flex-direction: column;
+        justify-content: flex-start;
+        height: auto; /* Adjust if your background is applied here and needs to cover more space */
+        min-height: 100vh;
+        background-size: cover; /* Ensure background covers the area as intended */
+        background-position: center;
+    }
+
+    .card-stacks-container {
+        flex-direction: column;
+        justify-content: flex-start; /* Align content to the top */
+        align-items: center; /* Center items horizontally */
+    }
+
+    .card-stack {
+        width: 90%; /* Adjust width to fit mobile screens */
+        min-height: 600px;
+        height: auto; /* Allow dynamic height */
+        margin: 10px auto; /* Adjust vertical spacing and center horizontally */
+    }
+    .card {
+        display: block; /* Ensure cards are laid out as block elements */
+        width: 100%; /* Make cards span the full width of their container */
+        margin-bottom: 20px; /* Add some space between cards */
+        /* Reset any other properties that might hide the cards */
+    }
+}
+
+
+
+
+.card {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: top 0.7s ease, visibility 0s linear 0.7s;
+    visibility: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.2); /* More transparent background */
+    will-change: transform, top; /* Hint for performance optimization */
+    transform: translate3d(0, 0, 0); /* Trigger GPU acceleration */
+}
+
+
+.card.active {
+    top: 0;
+    visibility: visible; /* Active card is visible */
+    z-index: 2; /* Ensure it's above non-active cards */
+    transition-delay: 0s; /* Apply transitions immediately for active card */
+}
+
+
+
+/* Define the animations for sliding in and out */
+@keyframes slideIn {
+    from {
+        transform: translateY(100%) scale(0.8); /* Start below and scaled down */
+    }
+    to {
+        transform: translateY(0) scale(1); /* End centered and scaled to normal */
+    }
+}
+
+@keyframes slideOut {
+    to {
+        transform: translateY(-100%) scale(0.8); /* Exit upwards and scale down */
+    }
+}
+
+.card-content {
+    display: flex;
+    padding: 10px;
+    justify-content: space-between;
+}
+
+.card-text, .card-mobile-view {
+    flex: 1;
+    padding: 0 5px;
+}
+
+
+/* Styling adjustments for the next arrow */
+
+/* Keyframe Animations for Card Transitions */
+
+.slide-in {
+    animation: slideIn 0.5s forwards;
+}
+
+.slide-out {
+    animation: slideOut 0.5s forwards;
+}
+
+
+
+/* Styling adjustments for the next arrow */
+.next-arrow {
+    position: absolute;
+    bottom: 10px; /* Ensure it's towards the bottom of the card stack */
+    right: 50%; /* Center the button horizontally within the card stack */
+    transform: translateX(50%); /* Adjust translation to perfectly center */
+    background-color: #000000; /* Use a bright color for visibility */
+    color: #fff; /* Ensure the arrow symbol is white for contrast */
+    padding: 8px;
+    border-radius: 50%; /* Circular shape */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.5); /* Add a shadow for depth */
+    font-size: 24px; /* Increase font size for visibility */
+    width: 40px; /* Set a specific width */
+    height: 40px; /* Set a specific height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer; /* Indicate it's clickable */
+    z-index: 100; /* Ensure it's above other elements */
+}
+
+
+/* Keyframe Animations for Card Transitions */
+
+
+
+        .feature-link {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 16px 32px;
+        background-color: transparent;
+        color: rgb(0, 0, 0);
+        font-size: 16px;
+        font-weight: bold;
+        text-decoration: none;
+        overflow: visible; /* Ensure shadows aren't clipped */
+    }
+
+    /* Box with increased opacity and visible outline */
+    .feature-link::before, .feature-link::after {
+        content: '';
+        position: absolute;
+        background: rgba(255, 255, 255, 0.7); /* Increased opacity for visibility */
+        width: calc(100% + 4px); /* Extend size for shadow visibility */
+        height: calc(100% + 4px);
+        margin-left: -2px; /* Adjust position to center */
+        margin-top: -2px;
+        box-shadow: 0 0 0 2px rgb(250, 250, 250); /* Simulate border around the box */
+    }
+
+    .feature-link::before {
+        transform: translate(5px, 5px);
+    }
+
+    .feature-link::after {
+        transform: translate(-5px, -5px);
+    }
+
+    .feature-link span {
+        position: relative;
+        z-index: 1;
+    }
+
+
+
+    .header-container {
+  position: relative;
+}
+
+#menu-toggle {
+  position: absolute;
+  right: 20px; /* Adjust as necessary */
+  top: 20px; /* Adjust as necessary */
+}
+
+
+  
+
+        /* Ensure background image covers but is always fully visible */
+.hero-container {
+    background-size: contain; /* Change from cover to contain for full visibility */
+    background-repeat: no-repeat;
+    background-position: center center;
+    min-height: 100vh; /* Ensure it covers the full viewport height */
+}
+
+/* Ensure background image covers bu
+  
+
+        /* Ensure background image covers but is always fully visible */
+.hero-container {
+    background-size: contain; /* Change from cover to contain for full visibility */
+    background-repeat: no-repeat;
+    background-position: center center;
+    min-height: 100vh; /* Ensure it covers the full viewport height */
+}
+
+
+
+
+/* Ensure background image covers but is always fully visible */
+body {
+    background-color: #ffffff; /* Ensures the whole page has a white background */
+}
+
+
+
+    </style>
+    
+    
+    
+</head>
+<body class="flex flex-col">
+    <div class="relative w-full">
+        <header class="absolute top-0 left-0 right-0 w-full bg-white bg-opacity-50 backdrop-blur-lg z-20">
+            <nav class="container mx-auto px-6 py-3">
+                <div class="flex items-center justify-between">
+                    <a href="#" class="text-xl font-semibold text-black">esImErKki</a>
+                    <div class="block md:hidden">
+                        <button id="menu-toggle" class="text-white focus:outline-none">
+                          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-16 6h16"/>
+                           </svg>
+                        </button>
+
+                    </div>
+                    <div class="hidden w-full md:block md:w-auto" id="mobile-menu">
+                        <ul class="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
+                            <li>
+                                <a href="#" class="py-3 px-5 text-black hover:text-gray-800 text-lg font-semibold" aria-current="page">Home</a>
+                            </li>
+                            <li>
+                                <a href="#first-feature" class="py-3 px-5 text-black hover:text-gray-800 text-lg font-semibold">Ominaisuudet</a>
+                            </li>
+                            <li>
+                                <a href="#about-us" class="py-3 px-5 text-black hover:text-gray-800 text-lg font-semibold">Tietoa meistä</a>
+                            </li>
+                        </ul>
+                        
+                        
+                    </div>
+                </div>
+            </nav>
+        </header>
+      
+        <div class="relative w-full h-screen bg-no-repeat bg-cover flex items-center justify-center" style="background-image: url('./assets/images/beegee2.png');">
+            <div class="card-stacks-container absolute inset-0 flex items-center justify-center">
+                <main class="flex items-center justify-center">
+                    <section class="card-stacks flex justify-center items-center">
+                        <!-- Card Stack 1 -->
+                        <div class="card-stack" id="stack1">
+                            <div class="next-arrow">↓</div> <!-- Next Arrow -->
+                            <!-- Card 1 -->
+                            <div class="card active">
+                                <div class="card-image">
+                                    <img src="./assets/images/huomentad2.png" alt="Website 1 Desktop View">
+                                </div>
+                                <div class="card-content">
+                                    <div class="card-text">
+                                        <p>PAGE PAGE PAGE PAGE PAGE PAGE PAGE PAGE PAGE PAGE</p>
+                                    </div>
+                                    <div class="card-mobile-view">
+                                        <img src="./assets/images/huomentam.png" alt="Website 1 Mobile View">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Additional Card for testing in Stack 1 -->
+                            <div class="card">
+                                <div class="card-image">
+                                    <img src="./assets/images/huomentadd3.png" alt="Website 1 Desktop View Duplicate">
+                                </div>
+                                <div class="card-content">
+                                    <div class="card-text">
+                                        <p>DIFFERENT PAGE PAGE PAGE PAGE PAGE PAGE PAGE PAGE PAGE PAGE</p>
+                                    </div>
+                                    <div class="card-mobile-view">
+                                        <img src="./assets/images/huomentam2.png" alt="Website 1 Mobile View Duplicate">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card Stack 2 -->
+                        <div class="card-stack" id="stack2">
+                            <div class="next-arrow">↓</div> <!-- Next Arrow -->
+                            <!-- Card 1 -->
+                            <div class="card active">
+                                <div class="card-image">
+                                    <img src="./assets/images/huomentad2.png" alt="Website 1 Desktop View">
+                                </div>
+                                <div class="card-content">
+                                    <div class="card-text">
+                                        <p>PAGE PAGE PAGE PAGE PAGE PAGE PAGE PAGE PAGE PAGE</p>
+                                    </div>
+                                    <div class="card-mobile-view">
+                                        <img src="./assets/images/huomentam.png" alt="Website 1 Mobile View">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Additional Card for testing in Stack 1 -->
+                            <div class="card">
+                                <div class="card-image">
+                                    <img src="./assets/images/huomentadd3.png" alt="Website 1 Desktop View Duplicate">
+                                </div>
+                                <div class="card-content">
+                                    <div class="card-text">
+                                        <p>DIFFERENT PAGE PAGE PAGE PAGE PAGE PAGE PAGE PAGE PAGE PAGE</p>
+                                    </div>
+                                    <div class="card-mobile-view">
+                                        <img src="./assets/images/huomentam2.png" alt="Website 1 Mobile View Duplicate">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-stack" id="stack3">
+                            <div class="next-arrow">↓</div> <!-- Next Arrow for Stack 2 -->
+                            <!-- Card 1 for Stack 2 -->
+                            <div class="card active">
+                                <div class="card-image">
+                                    <img src="./assets/images/featured.png" alt="Website 2 Desktop View">
+                                </div>
+                                <div class="card-content">
+                                    <div class="card-text">
+                                        <p>FEATURES FEATURES FEATURES FEATURES FEATURES FEATURES</p>
+                                    </div>
+                                    <div class="card-mobile-view">
+                                        <img src="./assets/images/featured2.png" alt="Website 2 Mobile View">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Additional Card for testing in Stack 2 -->
+                            <div class="card">
+                                <div class="card-image">
+                                    <img src="./assets/images/nytid.png" alt="Website 2 Desktop View Duplicate">
+                                </div>
+                                <div class="card-content">
+                                    <div class="card-text">
+                                        <p>GPT GPT GPT GPT GPT GPT GPT GPT GPT GPT GPT GPT GPT GPT</p>
+                                    </div>
+                                    <div class="card-mobile-view">
+                                        <img src="./assets/images/gpt.png" alt="Website 2 Mobile View Duplicate">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </main>
+            </div>
+        </div>
+        <footer class="bg-white">
+            <!-- Footer content here -->
+        </footer>
+        <script src="../src/scripts/main.js"></script>
+    </body>
+    </html>
